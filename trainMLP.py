@@ -34,16 +34,22 @@ mlp_model = MLPClassifier(
     activation='relu',            # ReLU activation function
     solver='adam',                # Adam optimizer
     max_iter=300,                 # Maximum iterations for training
-    random_state=42
+    random_state=42,
+    learning_rate_init=0.001       #default learning rate, Learning rate is a hyperparameter that controls how much the model's weights are adjusted during training.
 )
 
 mlp_model.fit(x_train, y_train)
 
 # Test model
 y_predict = mlp_model.predict(x_test)
-score = accuracy_score(y_test, y_predict)
+test_score = accuracy_score(y_test, y_predict)
 
-print(f"Test score: {score * 100:.2f}%")
+# Training accuracy
+y_train_predict = mlp_model.predict(x_train)
+train_score = accuracy_score(y_train, y_train_predict)
+
+print(f"Training score: {train_score * 100:.2f}%")
+print(f"Test score: {test_score * 100:.2f}%")
 
 # Save the model
 with open('mlp_model.p', 'wb') as f:
